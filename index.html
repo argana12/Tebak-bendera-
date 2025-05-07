@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tebak Bendera Negara oleh Ghozy Games - Game edukasi seru untuk belajar bendera dunia.">
+    <meta name="keywords" content="tebak bendera, game edukasi, bendera dunia, Ghozy Games, top global, leaderboard">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="author" content="Ghozy Games">
+    <link rel="canonical" href="https://argana12.github.io/tebak-bendera-2/bendera.html">
+    <meta property="og:title" content="Tebak Bendera - Ghozy Games">
+    <meta property="og:description" content="Game edukasi seru untuk belajar bendera dunia! Tantang dirimu di Top Global!">
+    <meta property="og:image" content="assets/og-image.jpg">
+    <meta property="og:url" content="https://argana12.github.io/tebak-bendera-2/bendera.html">
+    <meta property="og:type" content="website">
+    <title>Tebak Bendera - Ghozy Games</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@700&family=Comic+Neue:wght@700&display=block" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #001F3F, #0074D9);
+            color: white;
+            text-align: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            padding-top: 70px;
+        }
+
+        @keyframes patternScroll {
+            0% { background-position: 0 0; transform: rotate(0deg); }
+            50% { background-position: 200px 200px; transform: rotate(5deg); }
+            100% { background-position: 400px 400px; transform: rotate(0deg); }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.2;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 10%, transparent 10%),
+                        linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.1) 75%);
+            background-size: 50px 50px, 100px 100px;
+            animation: patternScroll 15s linear infinite;
+            background-blend-mode: overlay;
+        }
+
+        .particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 6px;
+            height: 6px;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+            animation: floatParticle 5s infinite ease-in-out;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(0) scale(1); opacity: 0.3; }
+            50% { transform: translateY(30px) scale(1.2); opacity: 0.6; }
+            100% { transform: translateY(0) scale(1); opacity: 0.3; }
+        }
+
+        @keyframes meteorShower {
+            0% { transform: translate(0, 0) rotate(-45deg); opacity: 1; }
+            100% { transform: translate(800px, 800px) rotate(-45deg); opacity: 0; }
+        }
+
+        .meteor-white {
+            position: fixed;
+            width: 2px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            filter: blur(1.5px);
+            z-index: -1;
+            animation: meteorShower linear forwards;
+        }
+
+        .meteor-yellow {
+            position: fixed;
+            width: 2px;
+            height: 80px;
+            background: linear-gradient(to bottom, #FFEB00, transparent);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            filter: blur(1px);
+            z-index: -1;
+            animation: meteorShower linear forwards;
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            0% { transform: translateY(-20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            0% { transform: translateX(-20px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeInZoom {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes slideOutRight {
+            0% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(20px); opacity: 0; }
+        }
+
+        .navbar {
+            background: linear-gradient(45deg, #1A3C6D, #2E5A9B);
+            border-bottom: 3px solid #FFEB00;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            padding: 15px 30px;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFEB00 !important;
+            text-shadow: 0 0 10px rgba(255, 235, 0, 0.6);
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+
+        .navbar-nav .nav-link {
+            color: white !important;
+            font-size: 16px;
+            font-weight: 400;
+            padding: 8px 15px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.15);
+            margin: 0 5px;
+            animation: slideInRight 0.5s ease forwards;
+            animation-delay: calc(0.1s * var(--i));
+        }
+
+        .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+            color: #FFEB00 !important;
+            background: rgba(255, 235, 0, 0.4);
+        }
+
+        .music-toggle {
+            color: white !important;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+
+        .music-toggle:hover {
+            color: #FFEB00 !important;
+            background: rgba(255, 235, 0, 0.4);
+        }
+
+        .navbar-toggler {
+            border: none;
+            color: #FFEB00;
+            font-size: 24px;
+            position: relative;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+        }
+
+        .navbar-toggler .fa-bars,
+        .navbar-toggler .fa-times {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .navbar-toggler[aria-expanded="true"] .fa-bars {
+            transform: translate(-50%, -50%) rotate(90deg);
+            opacity: 0;
+        }
+
+        .navbar-toggler[aria-expanded="false"] .fa-bars {
+            transform: translate(-50%, -50%) rotate(0deg);
+            opacity: 1;
+        }
+
+        .navbar-toggler[aria-expanded="true"] .fa-times {
+            transform: translate(-50%, -50%) rotate(0deg);
+            opacity: 1;
+        }
+
+        .navbar-toggler[aria-expanded="false"] .fa-times {
+            transform: translate(-50%, -50%) rotate(-90deg);
+            opacity: 0;
+        }
+
+        @media (max-width: 991px) {
+            .navbar-nav .nav-link, .music-toggle {
+                margin: 5px 0;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-brand {
+                font-size: 24px;
+            }
+            .navbar-nav .nav-link {
+                font-size: 14px;
+            }
+            .container {
+                padding: 80px 15px 40px;
+            }
+        }
+
+        .container {
+            padding: 100px 20px 50px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .globe-anim {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            animation: rotate 20s linear infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 235, 0, 0.6));
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 25px;
+            letter-spacing: 2px;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .desc {
+            max-width: 800px;
+            margin: 35px auto;
+            font-size: 18px;
+            font-weight: 300;
+            opacity: 0.9;
+            line-height: 1.9;
+            animation: fadeInUp 1.2s ease forwards;
+        }
+
+        @media (max-width: 576px) {
+            .desc {
+                font-size: 17px;
+            }
+        }
+
+        .token-container {
+            font-size: 20px;
+            font-weight: 600;
+            background: #FFEB00;
+            color: #000;
+            padding: 10px 14px;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 15px 0;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .start-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .start-btn, .watch-ad-btn {
+            background: #FFEB00;
+            color: #000;
+            padding: 14px 25px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 220px;
+            text-align: center;
+        }
+
+        .start-btn:hover, .watch-ad-btn:hover {
+            background: #FFC107;
+        }
+
+        @media (max-width: 576px) {
+            .start-btn, .watch-ad-btn {
+                width: 100%;
+            }
+        }
+
+        .mode-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px auto;
+            padding: 20px;
+            border: 2px solid #FFEB00;
+            border-radius: 10px;
+            max-width: 800px;
+        }
+
+        @media (max-width: 576px) {
+            .mode-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .mode-btn {
+                width: 100%;
+                margin-bottom: 10px;
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+
+        .mode-container h3 {
+            width: 100%;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .mode-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            border: 1px solid transparent;
+        }
+
+        .mode-btn i {
+            font-size: 16px;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+        }
+
+        .mode-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .mode-btn:active {
+            animation: pulse 0.2s ease;
+        }
+
+        .mode-btn.active {
+            box-shadow: 0 0 10px #FFEB00;
+            transform: scale(1.05);
+            border: 1px solid #FFEB00;
+        }
+
+        .mode-btn:hover i {
+            animation: bounce 0.3s ease;
+        }
+
+        .mode-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 10px;
+            font-size: 12px;
+            color: #FFD700;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mode-btn[data-mode="chaos"]::after {
+            content: 'New';
+            opacity: 1;
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #28A745, #52C780);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, #FFC107, #FFE066);
+            color: #000;
+        }
+
+        .btn-info {
+            background: linear-gradient(45deg, #17A2B8, #40C4D9);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6C757D, #A1A8AF);
+            color: white;
+        }
+
+        .btn-purple {
+            background: linear-gradient(45deg, #6F42C1, #9B6EE6);
+            color: white;
+        }
+
+        .btn-orange {
+            background: linear-gradient(45deg, #FD7E14, #FFAB66);
+            color: white;
+        }
+
+        .btn-blue {
+            background: linear-gradient(45deg, #0D6EFD, #66A3FF);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #DC3545, #FF6666);
+            color: white;
+        }
+
+        .mode-description {
+            font-size: 14px;
+            color: #FFFFFF;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 10px auto;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .mode-description.show {
+            opacity: 1;
+            transform: translateX(0);
+            display: block;
+        }
+
+        .mode-description.switch {
+            animation: fadeInZoom 0.3s ease forwards;
+        }
+
+        .mode-description.hide {
+            animation: slideOutRight 0.3s ease forwards;
+        }
+
+        @media (max-width: 576px) {
+            .mode-description {
+                font-size: 13px;
+                padding: 8px;
+                max-width: 90%;
+            }
+        }
+
+        .ad-space {
+            width: 100%;
+            max-width: 728px;
+            height: 90px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 20px auto;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.6);
+            border: 2px dashed #FFEB00;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-top: 2px solid #FFD700;
+            width: 100%;
+        }
+
+        .footer p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #FFD700;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #FFC107;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            color: #FFD700;
+            font-size: 20px;
+        }
+
+        .social-icons a:hover {
+            color: #FFC107;
+        }
+
+        .modal-dialog {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: auto;
+            max-width: 400px;
+        }
+
+        @media (max-width: 576px) {
+            .modal-dialog {
+                max-width: 90%;
+            }
+        }
+
+        .modal.fade .modal-dialog {
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            transform: translateY(50px);
+            opacity: 0;
+        }
+
+        .modal.show .modal-dialog {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1A3C6D, #2E5A9B);
+            color: white;
+            border: 2px solid #FFEB00;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            animation: popIn 0.5s ease;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid rgba(255, 235, 0, 0.3);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body p {
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .modal-body .btn {
+            padding: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-body .btn i {
+            font-size: 14px;
+            margin-right: 8px;
+        }
+
+        .btn-login {
+            background: linear-gradient(45deg, #FFEB00, #FFC107);
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            margin: 8px 0;
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(45deg, #FFC107, #FFEB00);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .google-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .google-btn:hover::before {
+            left: 100%;
+        }
+
+        .facebook-btn {
+            background: linear-gradient(45deg, #3B5998, #4C70BA);
+            color: white;
+        }
+
+        .facebook-btn:hover {
+            background: linear-gradient(45deg, #4C70BA, #3B5998);
+            transform: translateY(-2px);
+        }
+
+        .modal-footer {
+            border-top: 1px solid rgba(255, 235, 0, 0.3);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .modal-footer .btn-secondary {
+            background: linear-gradient(45deg, #6C757D, #A1A8AF);
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .modal-footer .btn-secondary:hover {
+            background: linear-gradient(45deg, #A1A8AF, #6C757D);
+            transform: translateY(-2px);
+        }
+
+        .modal-footer .btn-warning {
+            background: linear-gradient(45deg, #FFC107, #FFE066);
+            color: #000;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin: 8px 0;
+        }
+
+        .modal-footer .btn-warning:hover {
+            background: linear-gradient(45deg, #FFE066, #FFC107);
+            transform: translateY(-2px);
+        }
+
+        /* Desain Khusus untuk Modal Level dan Benua (Nuansa Kartun/Game Puzzle) */
+        .level-modal-content {
+            background: linear-gradient(135deg, #1A3C6D, #2E5A9B);
+            border: 3px solid #FFEB00;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Comic Neue', sans-serif;
+        }
+
+        .level-modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 8%, transparent 8%);
+            background-size: 25px 25px;
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        .level-modal-header {
+            background: linear-gradient(45deg, #0074D9, #40C4FF);
+            border-bottom: none;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .level-modal-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFF;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .level-modal-body {
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0 0 20px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .level-modal-body p {
+            font-size: 18px;
+            font-weight: 600;
+            color: #FFF;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+
+        .level-btn {
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #FFEB00;
+            width: 100%;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .level-btn i {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .level-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border-color: #FFF;
+        }
+
+        .level-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .level-btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-success.level-btn {
+            background: linear-gradient(45deg, #28A745, #52C780);
+            color: #FFF;
+        }
+
+        .btn-primary.level-btn {
+            background: linear-gradient(45deg, #0D6EFD, #66A3FF);
+            color: #FFF;
+        }
+
+        .btn-danger.level-btn {
+            background: linear-gradient(45deg, #DC3545, #FF6666);
+            color: #FFF;
+        }
+
+        @media (max-width: 576px) {
+            .level-modal-title {
+                font-size: 24px;
+            }
+            .level-modal-body p {
+                font-size: 16px;
+            }
+            .level-btn {
+                font-size: 16px;
+                padding: 12px 15px;
+            }
+            .level-btn i {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <audio id="bg-music" loop src="assets/audio/arcade.mp3"></audio>
+    <div class="particle-container"></div>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Ghozy Games</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-btn" href="index.html" onclick="forceReload('index.html')" style="--i: 1;">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="about-btn" href="about.html" onclick="forceReload('about.html')" style="--i: 2;">Tentang</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="contact-btn" href="contact.html" onclick="forceReload('contact.html')" style="--i: 3;">Kontak</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="privacy-btn" href="privacy-policy.html" onclick="forceReload('privacy-policy.html')" style="--i: 4;">Kebijakan Privasi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="leaderboard-btn" href="score.html" style="--i: 5;">Top Global</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="scoring-btn" href="skema.html" style="--i: 6;">Skema Penilaian</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="lang-en" href="#" style="--i: 7;">🇬🇧 English</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="lang-id" href="#" style="--i: 8;">🇮🇩 Indonesia</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="music-toggle nav-link" id="music-toggle" title="Toggle Music" style="--i: 9;">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" id="login-btn" style="--i: 10;" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <svg class="globe-anim" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#FFEB00" stroke-width="2"/>
+            <path d="M50 5a45 45 0 0 1 0 90a45 45 0 0 1 0-90" fill="none" stroke="#FFEB00" stroke-width="1"/>
+            <path d="M5 50h90" fill="none" stroke="#FFEB00" stroke-width="1"/>
+            <path d="M50 5v90" fill="none" stroke="#FFEB00" stroke-width="1"/>
+        </svg>
+        <h1 id="game-title">🌍 Tebak Bendera Negara</h1>
+        <p class="desc" id="game-desc">
+            Game ini bertujuan untuk menguji wawasanmu tentang bendera negara-negara di dunia. Saya membuat game ini karena saya ingin mengedukasi orang-orang tentang berbagai negara dengan cara yang menyenangkan.
+        </p>
+        <p class="token-container">
+            <i class="fas fa-coins me-2"></i><span id="token-label">Token:</span> <span id="token-count">7</span>
+        </p>
+        <div class="button-container">
+            <button class="watch-ad-btn" id="watch-ad-btn" onclick="dapatkanToken()">Tonton Iklan untuk Token</button>
+        </div>
+        <div class="mode-container">
+            <h3 id="mode-title">Pilih Mode Permainan</h3>
+            <button class="btn btn-success mode-btn" data-mode="classic" onclick="selectMode('classic')"><i class="fas fa-star me-2"></i><span>Klasik</span></button>
+            <button class="btn btn-warning mode-btn" data-mode="time" onclick="selectMode('time')"><i class="fas fa-clock me-2"></i><span>Waktu</span></button>
+            <button class="btn btn-info mode-btn" data-mode="learn" onclick="selectMode('learn')"><i class="fas fa-book me-2"></i><span>Belajar</span></button>
+            <button class="btn btn-secondary mode-btn" data-mode="capital" onclick="selectMode('capital')"><i class="fas fa-city me-2"></i><span>Ibu Kota</span></button>
+            <button class="btn btn-purple mode-btn" data-mode="name" onclick="selectMode('name')"><i class="fas fa-flag me-2"></i><span>Nama</span></button>
+            <button class="btn btn-orange mode-btn" data-mode="continent" onclick="selectMode('continent')"><i class="fas fa-globe me-2"></i><span>Benua</span></button>
+            <button class="btn btn-blue mode-btn" data-mode="diplomatic" onclick="selectMode('diplomatic')"><i class="fas fa-handshake me-2"></i><span>Diplomatik</span></button>
+            <button class="btn btn-danger mode-btn" data-mode="chaos" onclick="selectMode('chaos')"><i class="fas fa-bolt me-2"></i><span>Kacau</span></button>
+        </div>
+        <div id="mode-description" class="mode-description"></div>
+        <div class="start-container">
+            <button class="start-btn" id="start-btn" onclick="startGame()">Mulai</button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="levelModal" tabindex="-1" aria-labelledby="levelModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content level-modal-content">
+                <div class="modal-header level-modal-header">
+                    <h5 class="modal-title level-modal-title" id="levelModalLabel">Pilih Level</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body level-modal-body">
+                    <p id="level-guide-text" class="mb-4">Pilih tingkat kesulitan untuk memulai permainan!</p>
+                    <button class="btn btn-success level-btn" id="easy-btn" onclick="setLevel('mudah')">
+                        <i class="fas fa-star"></i>Mudah
+                    </button>
+                    <button class="btn btn-primary level-btn" id="medium-btn" onclick="setLevel('sedang')">
+                        <i class="fas fa-shield-alt"></i>Sedang
+                    </button>
+                    <button class="btn btn-danger level-btn" id="hard-btn" onclick="setLevel('sulit')">
+                        <i class="fas fa-fire"></i>Sulit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="continentModal" tabindex="-1" aria-labelledby="continentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content level-modal-content">
+                <div class="modal-header level-modal-header">
+                    <h5 class="modal-title level-modal-title" id="continentModalLabel">Pilih Benua</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body level-modal-body">
+                    <p id="continent-guide-text" class="mb-4">Pilih benua untuk memulai permainan!</p>
+                    <button class="btn btn-primary level-btn" onclick="selectContinent('afrika')"><i class="fas fa-globe-africa"></i>Afrika</button>
+                    <button class="btn btn-primary level-btn" onclick="selectContinent('amerika')"><i class="fas fa-globe-americas"></i>Amerika</button>
+                    <button class="btn btn-primary level-btn" onclick="selectContinent('asia')"><i class="fas fa-globe-asia"></i>Asia</button>
+                    <button class="btn btn-primary level-btn" onclick="selectContinent('oseania')"><i class="fas fa-globe"></i>Oseania</button>
+                    <button class="btn btn-primary level-btn" onclick="selectContinent('eropa')"><i class="fas fa-globe-europe"></i>Eropa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="noModeModal" tabindex="-1" aria-labelledby="noModeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="noModeModalLabel">Pilih Mode Terlebih Dahulu</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="no-mode-text">Silakan pilih mode permainan sebelum memulai!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="noTokenModal" tabindex="-1" aria-labelledby="noTokenModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="noTokenModalLabel">Token Habis</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="no-token-text">Token kamu habis! Tonton iklan untuk mendapatkan token baru.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" onclick="dapatkanToken(); bootstrap.Modal.getInstance(document.getElementById('noTokenModal')).hide();">Tonton Iklan</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login ke Ghozy Games</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="login-guide-text" class="mb-4">Masuk untuk menyimpan progres dan bersaing di Top Global!</p>
+                    <button class="btn btn-login google-btn" id="google-login">
+                        <i class="fab fa-google me-2"></i>Login dengan Google
+                    </button>
+                    <button class="btn btn-login facebook-btn" id="facebook-login">
+                        <i class="fab fa-facebook me-2"></i>Login dengan Facebook
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="modal-close-btn" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ad-space">
+        <p id="ad-placeholder">Wadah Iklan</p>
+    </div>
+
+    <div class="footer">
+        <p id="footer-copyright">© 2025 Ghozy Games. Semua Hak Dilindungi.</p>
+        <p>
+            <a href="privacy-policy.html" id="footer-privacy">Kebijakan Privasi</a> | 
+            <a href="about.html" id="footer-about">Tentang</a> | 
+            <a href="contact.html" id="footer-contact">Kontak</a>
+        </p>
+        <p id="footer-email">Hubungi kami di: <a href="mailto:argana889@gmail.com">argana889@gmail.com</a></p>
+        <p id="footer-follow">Ikuti kami di:</p>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/goxy.argxa_/" title="Instagram" data-bs-toggle="tooltip"><i class="fab fa-instagram"></i></a>
+            <a href="https://x.com/ghozyargana" title="Twitter" data-bs-toggle="tooltip"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/in/muhammad-ghozy-argana-1b102a342/" title="LinkedIn" data-bs-toggle="tooltip"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        const translations = {
+            id: {
+                'home-btn': 'Beranda',
+                'about-btn': 'Tentang',
+                'contact-btn': 'Kontak',
+                'privacy-btn': 'Kebijakan Privasi',
+                'leaderboard-btn': 'Top Global',
+                'scoring-btn': 'Skema Penilaian',
+                'login-btn': 'Login',
+                'game-title': '🌍 Tebak Bendera Negara',
+                'game-desc': 'Game ini bertujuan untuk menguji wawasanmu tentang bendera negara-negara di dunia. Saya membuat game ini karena saya ingin mengedukasi orang-orang tentang berbagai negara dengan cara yang menyenangkan.',
+                'token-label': 'Token:',
+                'watch-ad-btn': 'Tonton Iklan untuk Token',
+                'start-btn': 'Mulai',
+                'mode-title': 'Pilih Mode Permainan',
+                'ad-placeholder': 'Wadah Iklan',
+                'footer-copyright': '© 2025 Ghozy Games. Semua Hak Dilindungi.',
+                'footer-privacy': 'Kebijakan Privasi',
+                'footer-about': 'Tentang',
+                'footer-contact': 'Kontak',
+                'footer-email': 'Hubungi kami di: ',
+                'footer-follow': 'Ikuti kami di:',
+                'levelModalLabel': 'Pilih Level',
+                'easy-btn': 'Mudah',
+                'medium-btn': 'Sedang',
+                'hard-btn': 'Sulit',
+                'continentModalLabel': 'Pilih Benua',
+                'continent-guide-text': 'Pilih benua untuk memulai permainan!',
+                'noModeModalLabel': 'Pilih Mode Terlebih Dahulu',
+                'no-mode-text': 'Silakan pilih mode permainan sebelum memulai!',
+                'noTokenModalLabel': 'Token Habis',
+                'no-token-text': 'Token kamu habis! Tonton iklan untuk mendapatkan token baru.',
+                'loginModalLabel': 'Login ke Ghozy Games',
+                'google-login': 'Login dengan Google',
+                'facebook-login': 'Login dengan Facebook',
+                'modal-close-btn': 'Tutup',
+                'login-guide-text': 'Masuk untuk menyimpan progres dan bersaing di Top Global!',
+                'level-guide-text': 'Pilih tingkat kesulitan untuk memulai permainan!',
+                'select-mode': 'Pilih mode terlebih dahulu!',
+                'no-tokens': 'Token habis! Tonton iklan untuk mendapatkan token.',
+                'token-added': 'Token bertambah! Sekarang kamu punya token.',
+                classic: 'Klasik',
+                time: 'Waktu',
+                learn: 'Belajar',
+                capital: 'Ibu Kota',
+                name: 'Nama',
+                continent: 'Benua',
+                diplomatic: 'Diplomatik',
+                chaos: 'Kacau',
+                classic_desc: 'Tebak bendera tanpa batas waktu.',
+                time_desc: 'Tebak sebanyak mungkin dalam waktu terbatas.',
+                learn_desc: 'Pelajari bendera dengan petunjuk.',
+                capital_desc: 'Tebak ibu kota dari bendera.',
+                name_desc: 'Tebak nama negara dari bendera.',
+                continent_desc: 'Tebak bendera berdasarkan benua.',
+                diplomatic_desc: 'Tebak bendera negara dengan hubungan diplomatik.',
+                chaos_desc: 'Tebak bendera dengan tantangan acak.'
+            },
+            en: {
+                'home-btn': 'Home',
+                'about-btn': 'About',
+                'contact-btn': 'Contact',
+                'privacy-btn': 'Privacy Policy',
+                'leaderboard-btn': 'Leaderboard',
+                'scoring-btn': 'Scoring',
+                'login-btn': 'Login',
+                'game-title': '🌍 Guess the Country Flag',
+                'game-desc': 'This game aims to test your knowledge of country flags around the world. I created it to educate people about various countries in a fun way.',
+                'token-label': 'Token:',
+                'watch-ad-btn': 'Watch Ad for Token',
+                'start-btn': 'Start',
+                'mode-title': 'Choose Game Mode',
+                'ad-placeholder': 'Ad Space',
+                'footer-copyright': '© 2025 Ghozy Games. All Rights Reserved.',
+                'footer-privacy': 'Privacy Policy',
+                'footer-about': 'About',
+                'footer-contact': 'Contact',
+                'footer-email': 'Contact us at: ',
+                'footer-follow': 'Follow us on:',
+                'levelModalLabel': 'Choose Level',
+                'easy-btn': 'Easy',
+                'medium-btn': 'Medium',
+                'hard-btn': 'Hard',
+                'continentModalLabel': 'Choose Continent',
+                'continent-guide-text': 'Select a continent to start the game!',
+                'noModeModalLabel': 'Select a Mode First',
+                'no-mode-text': 'Please select a game mode before starting!',
+                'noTokenModalLabel': 'Out of Tokens',
+                'no-token-text': 'You are out of tokens! Watch an ad to get more.',
+                'loginModalLabel': 'Login to Ghozy Games',
+                'google-login': 'Login with Google',
+                'facebook-login': 'Login with Facebook',
+                'modal-close-btn': 'Close',
+                'login-guide-text': 'Sign in to save progress and compete on the Leaderboard!',
+                'level-guide-text': 'Choose a difficulty level to start the game!',
+                'select-mode': 'Please select a mode!',
+                'no-tokens': 'Out of tokens! Watch an ad to get more.',
+                'token-added': 'Token added! You now have tokens.',
+                classic: 'Classic',
+                time: 'Time',
+                learn: 'Learn',
+                capital: 'Capital',
+                name: 'Name',
+                continent: 'Continent',
+                diplomatic: 'Diplomatic',
+                chaos: 'Chaos',
+                classic_desc: 'Guess flags without a time limit.',
+                time_desc: 'Guess as many flags as possible in a limited time.',
+                learn_desc: 'Learn flags with hints.',
+                capital_desc: 'Guess the capital city from the flag.',
+                name_desc: 'Guess the country name from the flag.',
+                continent_desc: 'Guess flags based on continents.',
+                diplomatic_desc: 'Guess flags of countries with diplomatic relations.',
+                chaos_desc: 'Guess flags with random challenges.'
+            }
+        };
+
+        function getCurrentTime() {
+            return new Date();
+        }
+
+        function checkAutoResetToken() {
+            const now = getCurrentTime();
+            const lastResetStr = localStorage.getItem("lastReset") || "2025-01-01T00:00:00.000Z";
+            const lastReset = new Date(lastResetStr);
+            const todayReset = new Date(now);
+            todayReset.setHours(18, 0, 0, 0);
+
+            let token = parseInt(localStorage.getItem("token")) || 0;
+            if (now >= todayReset && lastReset < todayReset) {
+                token = 7;
+                localStorage.setItem("token", token);
+                localStorage.setItem("lastReset", now.toISOString());
+                updateTokenDisplay();
+            }
+
+            setInterval(() => {
+                const current = getCurrentTime();
+                const lastResetCheck = new Date(localStorage.getItem("lastReset") || "2025-01-01T00:00:00.000Z");
+                const resetToday = new Date(current);
+                resetToday.setHours(18, 0, 0, 0);
+
+                if (current >= resetToday && lastResetCheck < resetToday) {
+                    token = 7;
+                    localStorage.setItem("token", token);
+                    localStorage.setItem("lastReset", current.toISOString());
+                    updateTokenDisplay();
+                }
+            }, 60000);
+        }
+
+        let token = parseInt(localStorage.getItem("token")) || 0;
+        function updateTokenDisplay() {
+            token = parseInt(localStorage.getItem("token")) || 0;
+            document.getElementById("token-count").textContent = token;
+        }
+
+        function updateLanguage(lang) {
+            try {
+                console.log("Memperbarui bahasa ke:", lang);
+                const trans = translations[lang];
+                for (const id in trans) {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        if (id === 'game-title') {
+                            el.textContent = trans[id];
+                        } else if (id === 'footer-email') {
+                            el.childNodes[0].textContent = trans[id];
+                        } else if (['google-login', 'facebook-login'].includes(id)) {
+                            el.childNodes[2].textContent = trans[id];
+                        } else {
+                            el.textContent = trans[id];
+                        }
+                    }
+                }
+                document.querySelectorAll(".mode-btn span").forEach(span => {
+                    const btn = span.parentElement;
+                    const mode = btn.getAttribute("data-mode");
+                    span.textContent = trans[mode];
+                });
+                const selectedMode = localStorage.getItem("gameMode");
+                const desc = document.getElementById("mode-description");
+                if (selectedMode) {
+                    desc.textContent = trans[`${selectedMode}_desc`];
+                    desc.classList.remove("hide");
+                    desc.classList.add("show");
+                    desc.classList.add("switch");
+                    setTimeout(() => desc.classList.remove("switch"), 300);
+                } else {
+                    desc.textContent = "";
+                    desc.classList.remove("show");
+                    desc.classList.add("hide");
+                    setTimeout(() => desc.classList.remove("hide"), 300);
+                }
+                document.getElementById("login-guide-text").textContent = trans['login-guide-text'];
+                document.getElementById("level-guide-text").textContent = trans['level-guide-text'];
+                document.getElementById("continent-guide-text").textContent = trans['continent-guide-text'];
+                document.getElementById("no-mode-text").textContent = trans['no-mode-text'];
+                document.getElementById("no-token-text").textContent = trans['no-token-text'];
+            } catch (error) {
+                console.error("Kesalahan saat memperbarui bahasa:", error);
+            }
+        }
+
+        function forceReload(page) {
+            window.location.href = page;
+        }
+
+        function dapatkanToken() {
+            token += 1;
+            localStorage.setItem("token", token);
+            updateTokenDisplay();
+            alert(translations[savedLang]['token-added'].replace('tokens', token) || 
+                (savedLang === "en" ? `Token added! You now have ${token} tokens.` : 
+                `Token bertambah! Sekarang kamu punya ${token} token.`));
+        }
+
+        function selectMode(mode) {
+            const currentMode = localStorage.getItem("gameMode");
+            const desc = document.getElementById("mode-description");
+            const lang = localStorage.getItem("language") || "id";
+
+            if (currentMode === mode) {
+                localStorage.removeItem("gameMode");
+                document.querySelectorAll(".mode-btn").forEach(btn => btn.classList.remove("active"));
+                desc.classList.remove("show");
+                desc.classList.add("hide");
+                setTimeout(() => {
+                    desc.textContent = "";
+                    desc.classList.remove("hide");
+                }, 300);
+                return;
+            }
+
+            localStorage.setItem("gameMode", mode);
+            document.querySelectorAll(".mode-btn").forEach(btn => btn.classList.remove("active"));
+            event.target.classList.add("active");
+            desc.textContent = translations[lang][`${mode}_desc`];
+            desc.classList.remove("hide");
+            desc.classList.add(currentMode ? "switch" : "show");
+            setTimeout(() => desc.classList.remove("switch"), 300);
+        }
+
+        function selectContinent(continent) {
+            localStorage.setItem("selectedContinent", continent);
+            console.log(`Benua dipilih: ${continent}`);
+            bootstrap.Modal.getInstance(document.getElementById("continentModal")).hide();
+            if (token > 0) {
+                token -= 1;
+                localStorage.setItem("token", token);
+                updateTokenDisplay();
+                // Arahkan ke file benua yang sesuai
+                window.location.href = `${continent}.html`;
+            } else {
+                new bootstrap.Modal(document.getElementById("noTokenModal")).show();
+            }
+        }
+
+        function setLevel(level) {
+            localStorage.setItem("gameLevel", level);
+            const mode = localStorage.getItem("gameMode") || "";
+            if (!mode) {
+                new bootstrap.Modal(document.getElementById("noModeModal")).show();
+                return;
+            }
+            if (token <= 0) {
+                new bootstrap.Modal(document.getElementById("noTokenModal")).show();
+                return;
+            }
+            token -= 1;
+            localStorage.setItem("token", token);
+            updateTokenDisplay();
+
+            // Arahkan ke file yang sesuai berdasarkan mode dan level
+            let targetFile = "";
+            switch (mode) {
+                case "classic":
+                    targetFile = `klasik${level}.html`;
+                    break;
+                case "time":
+                    targetFile = `waktu${level}.html`;
+                    break;
+                case "learn":
+                    targetFile = `belajar${level}.html`;
+                    break;
+                case "capital":
+                    targetFile = `ibukota${level}.html`;
+                    break;
+                case "name":
+                    targetFile = `nama${level}.html`;
+                    break;
+                case "diplomatic":
+                    targetFile = `diplomatik${level}.html`;
+                    break;
+                case "chaos":
+                    targetFile = `kacau${level}.html`;
+                    break;
+                default:
+                    new bootstrap.Modal(document.getElementById("noModeModal")).show();
+                    return;
+            }
+            window.location.href = targetFile;
+        }
+
+        function startGame() {
+            const mode = localStorage.getItem("gameMode");
+            if (!mode) {
+                new bootstrap.Modal(document.getElementById("noModeModal")).show();
+                return;
+            }
+            if (token <= 0) {
+                new bootstrap.Modal(document.getElementById("noTokenModal")).show();
+                return;
+            }
+            if (mode === "continent") {
+                new bootstrap.Modal(document.getElementById("continentModal")).show();
+            } else {
+                new bootstrap.Modal(document.getElementById("levelModal")).show();
+            }
+        }
+
+        function toggleMusic() {
+            const audio = document.getElementById("bg-music");
+            const toggleBtn = document.getElementById("music-toggle");
+            if (audio.muted) {
+                audio.muted = false;
+                toggleBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            } else {
+                audio.muted = true;
+                toggleBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            }
+        }
+
+        function spawnParticles() {
+            const particleContainer = document.querySelector(".particle-container");
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                let particle = document.createElement("div");
+                particle.classList.add("particle");
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                let delay = Math.random() * 5;
+                let duration = 4 + Math.random() * 3;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                particleContainer.appendChild(particle);
+            }
+        }
+
+        function spawnMeteors() {
+            setInterval(() => {
+                for (let i = 0; i < 3; i++) {
+                    let meteor = document.createElement("div");
+                    meteor.classList.add(Math.random() < 0.6 ? "meteor-white" : "meteor-yellow");
+                    let startX = Math.random() * window.innerWidth;
+                    let startY = Math.random() * -100 - 50;
+                    meteor.style.left = `${startX}px`;
+                    meteor.style.top = `${startY}px`;
+                    let size = 60 + Math.random() * 60;
+                    let speed = 1 + Math.random() * 2;
+                    meteor.style.height = `${size}px`;
+                    meteor.style.animationDuration = `${speed}s`;
+                    let angle = -45 + (Math.random() * 20 - 10);
+                    meteor.style.transform = `rotate(${angle}deg)`;
+                    document.body.appendChild(meteor);
+                    setTimeout(() => meteor.remove(), speed * 1000 + 500);
+                }
+            }, 1000);
+        }
+
+        const savedLang = localStorage.getItem("language") || "id";
+        document.addEventListener("DOMContentLoaded", () => {
+            updateLanguage(savedLang);
+            checkAutoResetToken();
+            updateTokenDisplay();
+            spawnParticles();
+            spawnMeteors();
+
+            const audio = document.getElementById("bg-music");
+            audio.volume = 0.3;
+            audio.play().catch(() => console.log("Autoplay blocked"));
+
+            document.getElementById("lang-en").addEventListener("click", function (e) {
+                e.preventDefault();
+                updateLanguage("en");
+                localStorage.setItem("language", "en");
+            });
+
+            document.getElementById("lang-id").addEventListener("click", function (e) {
+                e.preventDefault();
+                updateLanguage("id");
+                localStorage.setItem("language", "id");
+            });
+
+            document.getElementById("music-toggle").addEventListener("click", toggleMusic);
+
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
+
+            const desc = document.getElementById("mode-description");
+            desc.classList.remove("show");
+            desc.textContent = "";
+            const selectedMode = localStorage.getItem("gameMode");
+            if (selectedMode) {
+                desc.textContent = translations[savedLang][`${selectedMode}_desc`];
+                desc.classList.add("show");
+                document.querySelector(`.mode-btn[data-mode="${selectedMode}"]`).classList.add("active");
+            }
+        });
+    </script>
+</body>
+</html>
