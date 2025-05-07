@@ -3,43 +3,912 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Tebak Bendera</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="game.css">
+    <title>Main Tebak Bendera - Level Mudah</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+/* Reset dan Pengaturan Dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    color: white;
+    text-align: center;
+    padding: 20px;
+    overflow-x: hidden;
+    position: relative;
+    background: linear-gradient(135deg, #000957, #344CB7);
+    min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(90deg, #1B263B, #344CB7);
+    border-bottom: 2px solid #FFEB00;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 0 0 15px 15px;
+    transition: height 0.5s ease, padding 0.5s ease, opacity 0.5s ease;
+    height: 70px;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.navbar.show {
+    opacity: 1;
+}
+
+.navbar.hidden {
+    display: none;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: 700;
+    color: #FFEB00 !important;
+    text-shadow: 0 0 10px rgba(255, 235, 0, 0.7);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    transform: translateX(-10px);
+    opacity: 0;
+}
+
+.navbar-brand.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    position: absolute;
+    right: 20px;
+    transform: translateX(20px);
+    opacity: 0;
+}
+
+.navbar-right.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.nav-link {
+    color: #E0E0E0 !important;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 235, 0, 0.3);
+}
+
+.nav-link:hover {
+    background: rgba(255, 235, 0, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px rgba(255, 235, 0, 0.5);
+}
+
+.nav-link.active {
+    color: #FFEB00 !important;
+    background: rgba(255, 235, 0, 0.4);
+    box-shadow: 0 0 15px rgba(255, 235, 0, 0.8);
+    transform: translateY(-2px);
+}
+
+.navbar-sound-btn,
+.navbar-help-btn {
+    color: #E0E0E0 !important;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 235, 0, 0.3);
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.navbar-sound-btn:hover,
+.navbar-help-btn:hover {
+    background: rgba(255, 235, 0, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px rgba(255, 235, 0, 0.5);
+}
+
+/* Background dan Efek Visual */
+.background-wave {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    z-index: -1;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    opacity: 0.15;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 10%, transparent 10%), 
+                linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.1) 75%);
+    background-size: 50px 50px, 100px 100px;
+    animation: patternScroll 15s linear infinite;
+}
+
+@keyframes patternScroll {
+    0% { background-position: 0 0; transform: rotate(0deg); }
+    50% { background-position: 200px 200px; transform: rotate(5deg); }
+    100% { background-position: 400px 400px; transform: rotate(0deg); }
+}
+
+.particle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    animation: floatParticle 5s infinite ease-in-out;
+}
+
+@keyframes floatParticle {
+    0% { transform: translateY(0) scale(1); opacity: 0.3; }
+    50% { transform: translateY(30px) scale(1.2); opacity: 0.6; }
+    100% { transform: translateY(0) scale(1); opacity: 0.3; }
+}
+
+.meteor {
+    position: fixed;
+    width: 2px;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 128, 128, 0.5);
+    filter: blur(1px);
+    z-index: -1;
+    animation: meteorShower linear forwards;
+}
+
+.meteor-yellow {
+    background: linear-gradient(to bottom, rgba(255, 235, 0, 1), rgba(255, 235, 0, 0));
+    box-shadow: 0 0 10px rgba(255, 235, 0, 0.8), 0 0 20px rgba(255, 235, 0, 0.5);
+}
+
+@keyframes meteorShower {
+    0% { transform: translate(0, 0) rotate(-45deg); opacity: 1; }
+    100% { transform: translate(800px, 800px) rotate(-45deg); opacity: 0; }
+}
+
+/* Loading */
+.loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    z-index: 1001;
+    font-size: 18px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 20px rgba(255, 235, 0, 0.5);
+}
+
+.loading.show {
+    display: flex;
+}
+
+.spinner {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.wave {
+    width: 12px;
+    height: 40px;
+    background: #FFEB00;
+    border-radius: 6px;
+    animation: wave 1.2s infinite ease-in-out;
+}
+
+.wave:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.wave:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes wave {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(1.5); }
+}
+
+/* Konten Game */
+.container {
+    max-width: 700px;
+    margin: 100px auto 20px auto;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.container.show {
+    opacity: 1;
+}
+
+#game-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 6px rgba(255, 235, 0, 0.5);
+    margin-bottom: 20px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+#game-title.show {
+    opacity: 1;
+}
+
+.attempts-display {
+    font-size: 18px;
+    font-weight: 600;
+    color: #FFEB00;
+    text-shadow: 0 0 5px rgba(255, 235, 0, 0.5);
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 235, 0, 0.3);
+    margin-bottom: 20px;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+}
+
+.attempts-display.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#ad-space {
+    width: 100%;
+    height: 90px;
+    background: rgba(255, 255, 255, 0.2);
+    text-align: center;
+    line-height: 90px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    margin: 20px auto;
+    border-radius: 10px;
+    border: 2px dashed white;
+}
+
+/* Bendera */
+.flag-container {
+    margin: 10px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 160px;
+    position: relative;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.flag-container.show {
+    opacity: 1;
+}
+
+.flag-container img {
+    display: block;
+    width: 280px;
+    height: 160px;
+    border-radius: 8px;
+    border: 3px solid #FFEB00;
+    margin: 0 auto;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.flag-container img.show {
+    opacity: 1;
+}
+
+.flag-container img.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
+}
+
+.flag-loading {
+    display: none;
+    width: 280px;
+    height: 160px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    border: 3px solid #FFEB00;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.flag-loading.show {
+    display: flex;
+}
+
+.flag-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #FFEB00;
+    border-top: 4px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Pilihan Jawaban */
+.choices {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin: 20px 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.choices.show {
+    opacity: 1;
+}
+
+.choice-btn {
+    background: #FFEB00;
+    color: black;
+    padding: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s ease-in-out, border 0.3s, box-shadow 0.3s;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.choice-btn:hover {
+    background: #FFC107;
+    transform: scale(1.05);
+}
+
+.choice-btn:active {
+    transform: scale(0.95);
+}
+
+.choice-btn.selected {
+    border: 3px solid #28A745;
+    box-shadow: 0 0 10px #28A745;
+}
+
+.choice-btn.disabled {
+    background: #A9A9A9;
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Tombol Konfirmasi */
+.confirm-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 14px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #A9A9A9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: not-allowed;
+    transition: background 0.3s, transform 0.2s ease-in-out, box-shadow 0.3s;
+    opacity: 0;
+}
+
+.confirm-btn.show {
+    opacity: 1;
+}
+
+.confirm-btn:disabled {
+    background-color: #A9A9A9;
+    cursor: not-allowed;
+}
+
+.confirm-btn:not(:disabled) {
+    background-color: #28A745;
+    cursor: pointer;
+}
+
+.confirm-btn:hover:not(:disabled) {
+    background-color: #218838;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.8);
+}
+
+/* Tombol Kembali */
+.back-btn {
+    position: relative;
+    margin: 20px auto;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #FFEB00;
+    background: linear-gradient(45deg, #344CB7, #000957);
+    border: 2px solid #FFEB00;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 4px 15px rgba(255, 235, 0, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 235, 0, 0.5);
+}
+
+/* Pop-up */
+.popup {
+    visibility: hidden;
+    opacity: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 30px 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 18px;
+    z-index: 1000;
+    width: 90%;
+    max-width: 350px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.popup.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.popup.hide {
+    visibility: hidden;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+    transition: opacity 0.3s ease-in, transform 0.3s ease-in, visibility 0s 0.3s;
+}
+
+.popup button:not(.close-btn) {
+    padding: 14px 26px;
+    border: none;
+    background: #FFEB00;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    margin-top: 10px;
+}
+
+.popup button:not(.close-btn):hover {
+    background: #FFC107;
+    transform: scale(1.1);
+}
+
+/* Pop-up Tutorial dan Help */
+.tutorial-popup .tutorial-content {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 20px;
+    position: relative;
+}
+
+.tutorial-popup h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.tutorial-popup p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: transparent !important;
+    color: #DC3545 !important;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #c82333 !important;
+    transform: scale(1.1);
+}
+
+/* Tombol Pop-up Khusus */
+.token-popup-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+#watch-ad-btn,
+#go-to-score-btn,
+#go-medium-btn,
+#go-score-btn,
+#error-exit-btn,
+#error-retry-btn {
+    padding: 14px 26px;
+    border: none;
+    background: #28A745;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+#watch-ad-btn:disabled {
+    background: #A9A9A9;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+#watch-ad-btn:not(:disabled):hover,
+#go-to-score-btn:hover,
+#go-medium-btn:hover,
+#go-score-btn:hover,
+#error-retry-btn:hover {
+    background: #218838;
+    transform: scale(1.1);
+}
+
+#go-to-score-btn,
+#go-score-btn,
+#error-exit-btn {
+    background: #DC3545;
+}
+
+#go-to-score-btn:hover,
+#go-score-btn:hover,
+#error-exit-btn:hover {
+    background: #c82333;
+}
+
+#exit-yes-btn,
+#exit-no-btn {
+    padding: 14px 26px;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+#exit-yes-btn {
+    background: #DC3545;
+    color: white;
+}
+
+#exit-yes-btn:hover {
+    background: #c82333;
+    transform: scale(1.1);
+}
+
+#exit-no-btn {
+    background: #28A745;
+    color: white;
+}
+
+#exit-no-btn:hover {
+    background: #218838;
+    transform: scale(1.1);
+}
+
+/* Responsivitas */
+@media (max-width: 480px) {
+    .navbar {
+        padding: 8px 10px;
+        height: 60px;
+    }
+
+    .navbar-brand {
+        font-size: 20px;
+    }
+
+    .nav-link {
+        font-size: 16px;
+        padding: 4px 8px;
+    }
+
+    .navbar-right {
+        right: 10px;
+        gap: 10px;
+    }
+
+    .navbar-sound-btn,
+    .navbar-help-btn {
+        font-size: 16px;
+        padding: 4px 8px;
+        margin-left: 5px;
+    }
+
+    .container {
+        margin: 80px auto 10px auto;
+        padding: 15px;
+    }
+
+    .flag-container img,
+    .flag-loading {
+        width: 220px;
+        height: 130px;
+    }
+
+    .meteor {
+        height: 50px;
+    }
+
+    .particle {
+        width: 4px;
+        height: 4px;
+        animation-duration: 4s;
+    }
+
+    #game-title {
+        font-size: 32px;
+        margin-bottom: 15px;
+    }
+
+    .attempts-display {
+        font-size: 16px;
+        padding: 8px 16px;
+        margin-bottom: 15px;
+    }
+
+    .choices {
+        gap: 10px;
+        margin: 15px 0;
+    }
+
+    .choice-btn {
+        padding: 14px;
+        font-size: 16px;
+    }
+
+    .confirm-btn {
+        padding: 12px 18px;
+        font-size: 16px;
+        margin: 15px auto;
+    }
+
+    .back-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+        margin: 15px auto;
+    }
+
+    .token-popup-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #watch-ad-btn,
+    #go-to-score-btn,
+    #go-medium-btn,
+    #go-score-btn,
+    #exit-yes-btn,
+    #exit-no-btn,
+    #error-exit-btn,
+    #error-retry-btn {
+        font-size: 16px;
+        padding: 12px 20px;
+    }
+
+    .tutorial-popup .tutorial-content {
+        font-size: 14px;
+        padding: 15px;
+    }
+
+    .tutorial-popup h3 {
+        font-size: 20px;
+    }
+
+    .tutorial-popup p {
+        font-size: 14px;
+    }
+
+    .close-btn {
+        font-size: 18px;
+        width: 28px;
+        height: 28px;
+    }
+}
+    </style>
 </head>
 <body>
     <div class="background-wave"></div>
     <div class="particle-container"></div>
 
+    <!-- Navbar -->
+    <nav class="navbar fixed-top hidden">
+        <div class="container-fluid d-flex flex-column align-items-center">
+            <div class="navbar-top d-flex justify-content-between w-100">
+                <div class="navbar-brand-container">
+                    <a class="navbar-brand" href="#" id="navbar-slogan">
+                        <i class="fas fa-flag me-2"></i>Tebak Bendera
+                    </a>
+                </div>
+                <div class="navbar-right d-flex align-items-center gap-2">
+                    <button class="navbar-sound-btn" id="sound-btn" title="Suara On/Off">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <button class="navbar-help-btn" id="help-btn" title="Tampilkan Tutorial">
+                        <i class="fas fa-exclamation"></i>
+                    </button>
+                    <div class="lang-options d-flex gap-2">
+                        <a class="nav-link" href="#" id="lang-en">🇬🇧</a>
+                        <a class="nav-link" href="#" id="lang-id">🇮🇩</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <!-- Indikator Loading -->
     <div id="loading" class="loading">
+        <div class="spinner">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
         <p id="loading-text">Memuat data... ⏳</p>
     </div>
 
+    <!-- Konten Game -->
     <div class="container">
-        <h2 id="game-title">🌍 Tebak Bendera</h2>
-
+        <h2 id="game-title">🌍 Tebak Bendera - Mudah</h2>
+        <div class="attempts-display" id="navbar-attempts">Kesempatan: 3</div>
         <div class="flag-container">
+            <div id="flag-loading" class="flag-loading">
+                <div class="flag-spinner"></div>
+            </div>
             <img id="flag-img" src="" alt="Bendera Negara">
         </div>
-
-        <p id="attempts">Kesempatan: 3</p>
-
         <div class="choices">
-            <button class="choice-btn">Pilihan 1</button>
-            <button class="choice-btn">Pilihan 2</button>
-            <button class="choice-btn">Pilihan 3</button>
-            <button class="choice-btn">Pilihan 4</button>
+            <button class="choice-btn" data-index="0"></button>
+            <button class="choice-btn" data-index="1"></button>
+            <button class="choice-btn" data-index="2"></button>
+            <button class="choice-btn" data-index="3"></button>
         </div>
-
         <button id="confirm-btn" class="confirm-btn" onclick="confirmAnswer()" disabled>✅ Jawaban Yakin</button>
     </div>
 
-    <!-- Pop-up untuk feedback -->
+    <!-- Pop-up Feedback -->
     <div id="popup" class="popup">
         <div class="popup-content">
             <p id="popup-message"></p>
             <button onclick="closePopup()" id="popup-ok-btn">OK</button>
+        </div>
+    </div>
+
+    <!-- Pop-up Token Habis -->
+    <div id="token-popup" class="popup">
+        <div class="popup-content">
+            <p id="token-message"></p>
+            <div class="token-popup-buttons">
+                <button id="watch-ad-btn" onclick="watchAd()">Tonton Iklan</button>
+                <button id="go-to-score-btn" onclick="goToScore()">Tidak, Lanjut ke Skor</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up Kemenangan -->
+    <div id="win-popup" class="popup">
+        <div class="popup-content">
+            <p id="win-message"></p>
+            <div class="token-popup-buttons">
+                <button id="go-medium-btn" onclick="goToMedium()">Lanjut ke Mode Sedang</button>
+                <button id="go-score-btn" onclick="goToScore()">Ke Perhitungan Poin</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up Error Pemuatan Bendera -->
+    <div id="error-popup" class="popup">
+        <div class="popup-content">
+            <p id="error-message"></p>
+            <div class="token-popup-buttons">
+                <button id="error-exit-btn" onclick="exitOnError()">Keluar</button>
+                <button id="error-retry-btn" onclick="retryLoadQuestion()">Coba Lagi</button>
+            </div>
         </div>
     </div>
 
@@ -49,7 +918,7 @@
     </div>
 
     <!-- Tombol Kembali ke Menu -->
-    <a href="index.html" class="back-btn" id="back-btn">🏠 Kembali ke Menu</a>
+    <button class="back-btn" id="back-btn" onclick="showExitPopup()">🏠 Kembali ke Menu</button>
 
     <!-- Pop-up Tutorial -->
     <div id="tutorial-popup" class="popup tutorial-popup">
@@ -58,13 +927,1035 @@
             <p id="rule-1">1. Pilih jawaban yang menurutmu benar.</p>
             <p id="rule-2">2. Klik tombol "✅ Jawaban Yakin" untuk mengonfirmasi pilihanmu.</p>
             <p id="rule-3">3. Jika jawaban benar ✅, lanjut ke pertanyaan berikutnya.</p>
-            <p id="rule-4">4. Kamu akan diberikan 3 kali kesempatan</p>
+            <p id="rule-4">4. Kamu akan diberikan 3 kali kesempatan.</p>
             <p id="rule-5">5. Jika jawaban salah ❌, kesempatan berkurang.</p>
-            <p id="rule-6">6. Jika kesempatan habis, token akan berkurang dan permainan berakhir.</p>
+            <p id="rule-6">6. Jika kesempatan habis, tonton iklan untuk melanjutkan (maks 4 kali).</p>
+            <p id="rule-7">7. Jangan lakukan screenshot, atau kesempatan akan berkurang!</p>
             <button onclick="closeTutorial()" id="start-game-btn">Mulai Game</button>
         </div>
     </div>
 
-    <script src="game.js"></script>
+    <!-- Pop-up Help -->
+    <div id="help-popup" class="popup tutorial-popup">
+        <div class="tutorial-content">
+            <button class="close-btn" onclick="closeHelp()">✖</button>
+            <h3 id="help-title">📜 Cara Bermain & Peraturan</h3>
+            <p id="help-rule-1">1. Pilih jawaban yang menurutmu benar.</p>
+            <p id="help-rule-2">2. Klik tombol "✅ Jawaban Yakin" untuk mengonfirmasi pilihanmu.</p>
+            <p id="help-rule-3">3. Jika jawaban benar ✅, lanjut ke pertanyaan berikutnya.</p>
+            <p id="help-rule-4">4. Kamu akan diberikan 3 kali kesempatan.</p>
+            <p id="help-rule-5">5. Jika jawaban salah ❌, kesempatan berkurang.</p>
+            <p id="help-rule-6">6. Jika kesempatan habis, tonton iklan untuk melanjutkan (maks 4 kali).</p>
+            <p id="help-rule-7">7. Jangan lakukan screenshot, atau kesempatan akan berkurang!</p>
+        </div>
+    </div>
+
+    <!-- Pop-up Konfirmasi Keluar -->
+    <div id="exit-popup" class="popup">
+        <div class="popup-content">
+            <p id="exit-message"></p>
+            <div class="token-popup-buttons">
+                <button id="exit-yes-btn" onclick="confirmExit(true)">Ya</button>
+                <button id="exit-no-btn" onclick="confirmExit(false)">Tidak</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      console.log("Game-easy.js berhasil dimuat!");
+
+let easyCountries = [];
+let attemptsLeft = 3;
+let selectedAnswer = null;
+let autoClosePopupTimeout = null;
+let questionLoaded = false;
+let isTransitioning = false;
+let isFlagLoaded = false;
+let savedLang = localStorage.getItem("language") || "id";
+let tokenPopupShown = false;
+let winPopupShown = false;
+let errorPopupShown = false;
+let usedFlagsEasy = [];
+let score = 0;
+let correctAnswers = 0;
+let comboCount = 0;
+let isWatchingAd = false;
+let adWatchCount = parseInt(localStorage.getItem("adWatchCount") || "0");
+let gameStarted = false;
+let wrongAnswers = new Set();
+let hasConsumedToken = false;
+let isSoundOn = true;
+
+const easyCountryCodes = [
+    "AFG", "ARG", "AUS", "AUT", "BHS", "BHR", "BGD", "BRB", "BEL", "BOL",
+    "BRA", "BGR", "KHM", "CAN", "CHL", "CHN", "COL", "CRI", "HRV", "CUB",
+    "CZE", "DNK", "DOM", "ECU", "EGY", "FIN", "FRA", "DEU", "GRC", "HKG",
+    "HUN", "ISL", "IND", "IDN", "IRN", "IRQ", "IRL", "ISR", "ITA", "JAM",
+    "JPN", "JOR", "KEN", "MYS", "MDV", "MEX", "MAR", "NLD", "NZL", "NOR",
+    "PAK", "PER", "PHL", "POL", "PRT", "QAT", "RUS", "SAU", "SGP", "ZAF",
+    "KOR", "ESP", "SWE", "CHE", "THA", "TUR", "UKR", "ARE", "GBR", "USA",
+    "VEN", "VNM"
+];
+
+const countryNamesID = {
+    "AFG": "Afganistan", "ARG": "Argentina", "AUS": "Australia", "AUT": "Austria",
+    "BHS": "Bahama", "BHR": "Bahrain", "BGD": "Bangladesh", "BRB": "Barbados",
+    "BEL": "Belgia", "BOL": "Bolivia", "BRA": "Brasil", "BGR": "Bulgaria",
+    "KHM": "Kamboja", "CAN": "Kanada", "CHL": "Cile", "CHN": "Tiongkok",
+    "COL": "Kolombia", "CRI": "Kosta Rika", "HRV": "Kroasia", "CUB": "Kuba",
+    "CZE": "Ceko", "DNK": "Denmark", "DOM": "Republik Dominika", "ECU": "Ekuador",
+    "EGY": "Mesir", "FIN": "Finlandia", "FRA": "Prancis", "DEU": "Jerman",
+    "GRC": "Yunani", "HKG": "Hong Kong", "HUN": "Hungaria", "ISL": "Islandia",
+    "IND": "India", "IDN": "Indonesia", "IRN": "Iran", "IRQ": "Irak",
+    "IRL": "Irlandia", "ISR": "Israel", "ITA": "Italia", "JAM": "Jamaika",
+    "JPN": "Jepang", "JOR": "Yordania", "KEN": "Kenya", "MYS": "Malaysia",
+    "MDV": "Maladewa", "MEX": "Meksiko", "MAR": "Maroko", "NLD": "Belanda",
+    "NZL": "Selandia Baru", "NOR": "Norwegia", "PAK": "Pakistan", "PER": "Peru",
+    "PHL": "Filipina", "POL": "Polandia", "PRT": "Portugal", "QAT": "Qatar",
+    "RUS": "Rusia", "SAU": "Arab Saudi", "SGP": "Singapura", "ZAF": "Afrika Selatan",
+    "KOR": "Korea Selatan", "ESP": "Spanyol", "SWE": "Swedia", "CHE": "Swiss",
+    "THA": "Thailand", "TUR": "Turki", "UKR": "Ukraina", "ARE": "Uni Emirat Arab",
+    "GBR": "Inggris", "USA": "Amerika Serikat", "VEN": "Venezuela", "VNM": "Vietnam"
+};
+
+function toggleSound() {
+    isSoundOn = !isSoundOn;
+    const soundBtn = document.getElementById("sound-btn");
+    if (soundBtn) {
+        soundBtn.innerHTML = isSoundOn ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-mute"></i>';
+        soundBtn.title = savedLang === "en" ? (isSoundOn ? "Toggle Sound Off" : "Toggle Sound On") : (isSoundOn ? "Matikan Suara" : "Hidupkan Suara");
+    }
+}
+
+function showHelp() {
+    let helpPopup = document.getElementById("help-popup");
+    if (!helpPopup) {
+        console.error("Elemen 'help-popup' tidak ditemukan!");
+        return;
+    }
+    console.log("Menampilkan help popup");
+    helpPopup.style.visibility = "visible";
+    setTimeout(() => helpPopup.classList.add("show"), 10);
+}
+
+function closeHelp() {
+    let helpPopup = document.getElementById("help-popup");
+    if (!helpPopup) {
+        console.error("Elemen 'help-popup' tidak ditemukan!");
+        return;
+    }
+    console.log("Menutup help popup");
+    helpPopup.classList.remove("show");
+    helpPopup.classList.add("hide");
+    setTimeout(() => {
+        helpPopup.style.visibility = "hidden";
+        helpPopup.classList.remove("hide");
+    }, 300);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOMContentLoaded dipicu");
+    localStorage.setItem("adWatchCount", "0");
+    adWatchCount = 0;
+
+    const navbar = document.querySelector(".navbar");
+    if (navbar) {
+        navbar.classList.add("hidden");
+        console.log("Navbar diatur ke hidden");
+    }
+
+    const loadingElement = document.getElementById("loading");
+    if (!loadingElement) {
+        console.error("Elemen 'loading' tidak ditemukan!");
+        return;
+    }
+    loadingElement.classList.add("show");
+    console.log("Loading element ditampilkan");
+
+    const popupElements = ["popup", "token-popup", "win-popup", "error-popup", "tutorial-popup", "help-popup"];
+    popupElements.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.classList.remove("show");
+        } else {
+            console.error(`Elemen '${id}' tidak ditemukan!`);
+        }
+    });
+
+    spawnMeteors();
+    spawnParticles();
+    checkAutoResetToken();
+
+    document.addEventListener("copy", detectScreenshot);
+    window.addEventListener("popstate", (event) => {
+        event.preventDefault();
+        showExitPopup();
+        history.pushState(null, null, window.location.href);
+    });
+    history.pushState(null, null, window.location.href);
+
+    fetch("https://restcountries.com/v3.1/all")
+        .then(response => {
+            if (!response.ok) throw new Error("Gagal mengambil data negara");
+            return response.json();
+        })
+        .then(data => {
+            easyCountries = data.filter(country => country.flags && country.name.common && country.cca3)
+                .map(country => ({
+                    cca3: country.cca3,
+                    name: {
+                        common: country.name.common,
+                        native: country.name.nativeName ? Object.values(country.name.nativeName)[0]?.common : country.name.common
+                    },
+                    flags: country.flags
+                }))
+                .filter(country => easyCountryCodes.includes(country.cca3));
+
+            console.log("Jumlah negara di level Mudah:", easyCountries.length);
+
+            if (easyCountries.length === 0) {
+                console.error("Daftar negara untuk level Mudah kosong!");
+                showPopup(savedLang === "en" ? 
+                    "❌ <b>No countries available for Easy level!</b>" : 
+                    "❌ <b>Tidak ada negara tersedia untuk level Mudah!</b>", "#DC3545");
+                setTimeout(() => window.location.href = "index.html", 4000);
+                return;
+            }
+
+            setTimeout(() => {
+                loadingElement.classList.remove("show");
+                console.log("Loading element disembunyikan, menampilkan tutorial");
+                showTutorial();
+            }, 500);
+        })
+        .catch(error => {
+            console.error("Gagal mengambil data:", error);
+            loadingElement.classList.remove("show");
+            showPopup(savedLang === "en" ? 
+                "❌ <b>Failed to load data!</b><br>Please check your internet connection." : 
+                "❌ <b>Gagal memuat data!</b><br>Silakan periksa koneksi internetmu.", "#DC3545");
+            setTimeout(() => showTutorial(), 1000);
+        });
+
+    const soundBtn = document.getElementById("sound-btn");
+    const helpBtn = document.getElementById("help-btn");
+
+    if (soundBtn) {
+        soundBtn.addEventListener("click", toggleSound);
+    } else {
+        console.error("Tombol 'sound-btn' tidak ditemukan!");
+    }
+
+    if (helpBtn) {
+        helpBtn.addEventListener("click", showHelp);
+    } else {
+        console.error("Tombol 'help-btn' tidak ditemukan!");
+    }
+
+    updateLanguage(savedLang);
+    setActiveLanguageButton(savedLang);
+    updateAttemptsDisplay();
+
+    const langEn = document.getElementById("lang-en");
+    const langId = document.getElementById("lang-id");
+    if (!langEn || !langId) {
+        console.error("Tombol bahasa 'lang-en' atau 'lang-id' tidak ditemukan!");
+        return;
+    }
+
+    langEn.addEventListener("click", (e) => {
+        e.preventDefault();
+        console.log("Tombol bahasa Inggris diklik");
+        savedLang = "en";
+        localStorage.setItem("language", "en");
+        updateLanguage("en");
+        setActiveLanguageButton("en");
+    });
+
+    langId.addEventListener("click", (e) => {
+        e.preventDefault();
+        console.log("Tombol bahasa Indonesia diklik");
+        savedLang = "id";
+        localStorage.setItem("language", "id");
+        updateLanguage("id");
+        setActiveLanguageButton("id");
+    });
+});
+
+function detectScreenshot() {
+    if (attemptsLeft > 0) {
+        attemptsLeft--;
+        updateAttemptsDisplay();
+        showPopup(savedLang === "en" ? 
+            `❌ <b>Screenshot detected!</b><br>Attempts reduced. Remaining: <b>${attemptsLeft}</b>` : 
+            `❌ <b>Screenshot terdeteksi!</b><br>Kesempatan berkurang. Tersisa: <b>${attemptsLeft}</b>`, "#DC3545");
+        if (attemptsLeft === 0) {
+            showTokenPopup();
+        }
+    }
+}
+
+function setActiveLanguageButton(lang) {
+    const langEn = document.getElementById("lang-en");
+    const langId = document.getElementById("lang-id");
+
+    if (!langEn || !langId) {
+        console.error("Tombol bahasa 'lang-en' atau 'lang-id' tidak ditemukan di setActiveLanguageButton!");
+        return;
+    }
+
+    if (lang === "en") {
+        langEn.classList.add("active");
+        langId.classList.remove("active");
+    } else {
+        langId.classList.add("active");
+        langEn.classList.remove("active");
+    }
+}
+
+function updateLanguage(lang) {
+    const navbar = document.querySelector(".navbar");
+    const attemptsElement = document.getElementById("navbar-attempts");
+    const sloganElement = document.querySelector(".navbar-brand");
+    const rightElement = document.querySelector(".navbar-right");
+
+    if (!navbar || !attemptsElement || !sloganElement || !rightElement) {
+        console.error("Elemen navbar, navbar-attempts, navbar-brand, atau navbar-right tidak ditemukan!");
+        return;
+    }
+
+    setTimeout(() => {
+        if (lang === "en") {
+            navbar.classList.remove("lang-id");
+            navbar.classList.add("lang-en");
+            document.getElementById("navbar-slogan").innerHTML = '<i class="fas fa-flag me-2"></i>Flag Quiz';
+            document.getElementById("game-title").textContent = "🌍 Guess the Flag - Easy";
+            document.getElementById("navbar-attempts").textContent = `Attempts: ${attemptsLeft}`;
+            document.getElementById("confirm-btn").textContent = "✅ Confirm Answer";
+            document.getElementById("ad-placeholder").textContent = "🔹 Ad Space 🔹";
+            document.getElementById("back-btn").textContent = "🏠 Back to Menu";
+            document.getElementById("loading-text").textContent = "Loading data... ⏳";
+            document.getElementById("tutorial-title").textContent = "📜 How to Play & Rules";
+            document.getElementById("rule-1").textContent = "1. Choose the answer you think is correct.";
+            document.getElementById("rule-2").textContent = "2. Click '✅ Confirm Answer' to submit your choice.";
+            document.getElementById("rule-3").textContent = "3. If correct ✅, proceed to the next question.";
+            document.getElementById("rule-4").textContent = "4. You get 3 attempts.";
+            document.getElementById("rule-5").textContent = "5. If wrong ❌, your attempts decrease.";
+            document.getElementById("rule-6").textContent = "6. If attempts run out, you must watch an ad to continue (max 4 times).";
+            document.getElementById("rule-7").textContent = "7. Do not take screenshots, or your attempts will decrease!";
+            document.getElementById("start-game-btn").textContent = "Start Game";
+            document.getElementById("help-title").textContent = "📜 How to Play & Rules";
+            document.getElementById("help-rule-1").textContent = "1. Choose the answer you think is correct.";
+            document.getElementById("help-rule-2").textContent = "2. Click '✅ Confirm Answer' to submit your choice.";
+            document.getElementById("help-rule-3").textContent = "3. If correct ✅, proceed to the next question.";
+            document.getElementById("help-rule-4").textContent = "4. You get 3 attempts.";
+            document.getElementById("help-rule-5").textContent = "5. If wrong ❌, your attempts decrease.";
+            document.getElementById("help-rule-6").textContent = "6. If attempts run out, you must watch an ad to continue (max 4 times).";
+            document.getElementById("help-rule-7").textContent = "7. Do not take screenshots, or your attempts will decrease!";
+            document.getElementById("popup-ok-btn").textContent = "OK";
+            document.getElementById("token-message").innerHTML = adWatchCount < 4 ? 
+                "⏳ <b>Attempts exhausted!</b><br>Watch an ad to continue playing?" : 
+                "⏳ <b>Attempts exhausted!</b><br>Ad watch limit reached. Proceed to score?";
+            document.getElementById("watch-ad-btn").textContent = adWatchCount < 4 ? "Watch Ad" : "Ad Attempts Exhausted";
+            document.getElementById("go-to-score-btn").textContent = "No, Go to Score";
+            document.getElementById("win-message").innerHTML = `🎉 <b>Congratulations!</b><br>You have answered all flags in Easy level!`;
+            document.getElementById("go-medium-btn").textContent = "Continue to Medium Mode";
+            document.getElementById("go-score-btn").textContent = "Go to Score";
+            document.getElementById("exit-message").innerHTML = "❓ <b>Are you sure you want to exit?</b><br>Your score will not be saved if you exit.";
+            document.getElementById("exit-yes-btn").textContent = "Yes";
+            document.getElementById("exit-no-btn").textContent = "No";
+            document.getElementById("error-message").innerHTML = "❌ <b>Failed to load flag!</b><br>Please check your connection and try again.";
+            document.getElementById("error-exit-btn").textContent = "Exit";
+            document.getElementById("error-retry-btn").textContent = "Try Again";
+            const soundBtn = document.getElementById("sound-btn");
+            const helpBtn = document.getElementById("help-btn");
+            if (soundBtn && helpBtn) {
+                soundBtn.title = isSoundOn ? "Toggle Sound Off" : "Toggle Sound On";
+                helpBtn.title = "Show Tutorial";
+            }
+        } else {
+            navbar.classList.remove("lang-en");
+            navbar.classList.add("lang-id");
+            document.getElementById("navbar-slogan").innerHTML = '<i class="fas fa-flag me-2"></i>Tebak Bendera';
+            document.getElementById("game-title").textContent = "🌍 Tebak Bendera - Mudah";
+            document.getElementById("navbar-attempts").textContent = `Kesempatan: ${attemptsLeft}`;
+            document.getElementById("confirm-btn").textContent = "✅ Jawaban Yakin";
+            document.getElementById("ad-placeholder").textContent = "🔹 Space Iklan 🔹";
+            document.getElementById("back-btn").textContent = "🏠 Kembali ke Menu";
+            document.getElementById("loading-text").textContent = "Memuat data... ⏳";
+            document.getElementById("tutorial-title").textContent = "📜 Cara Bermain & Peraturan";
+            document.getElementById("rule-1").textContent = "1. Pilih jawaban yang menurutmu benar.";
+            document.getElementById("rule-2").textContent = "2. Klik tombol '✅ Jawaban Yakin' untuk mengonfirmasi pilihanmu.";
+            document.getElementById("rule-3").textContent = "3. Jika jawaban benar ✅, lanjut ke pertanyaan berikutnya.";
+            document.getElementById("rule-4").textContent = "4. Kamu akan diberikan 3 kali kesempatan.";
+            document.getElementById("rule-5").textContent = "5. Jika jawaban salah ❌, kesempatan berkurang.";
+            document.getElementById("rule-6").textContent = "6. Jika kesempatan habis, tonton iklan untuk melanjutkan (maks 4 kali).";
+            document.getElementById("rule-7").textContent = "7. Jangan lakukan screenshot, atau kesempatan akan berkurang!";
+            document.getElementById("start-game-btn").textContent = "Mulai Game";
+            document.getElementById("help-title").textContent = "📜 Cara Bermain & Peraturan";
+            document.getElementById("help-rule-1").textContent = "1. Pilih jawaban yang menurutmu benar.";
+            document.getElementById("help-rule-2").textContent = "2. Klik tombol '✅ Jawaban Yakin' untuk mengonfirmasi pilihanmu.";
+            document.getElementById("help-rule-3").textContent = "3. Jika jawaban benar ✅, lanjut ke pertanyaan berikutnya.";
+            document.getElementById("help-rule-4").textContent = "4. Kamu akan diberikan 3 kali kesempatan.";
+            document.getElementById("help-rule-5").textContent = "5. Jika jawaban salah ❌, kesempatan berkurang.";
+            document.getElementById("help-rule-6").textContent = "6. Jika kesempatan habis, tonton iklan untuk melanjutkan (maks 4 kali).";
+            document.getElementById("help-rule-7").textContent = "7. Jangan lakukan screenshot, atau kesempatan akan berkurang!";
+            document.getElementById("popup-ok-btn").textContent = "OK";
+            document.getElementById("token-message").innerHTML = adWatchCount < 4 ? 
+                "⏳ <b>Kesempatan habis!</b><br>Tonton iklan untuk melanjutkan bermain?" : 
+                "⏳ <b>Kesempatan habis!</b><br>Kesempatan，虽 tonton iklan habis. Lanjut ke skor?";
+            document.getElementById("watch-ad-btn").textContent = adWatchCount < 4 ? "Tonton Iklan" : "Kesempatan Tonton Iklan Habis";
+            document.getElementById("go-to-score-btn").textContent = "Tidak, Lanjut ke Skor";
+            document.getElementById("win-message").innerHTML = `🎉 <b>Selamat!</b><br>Anda berhasil menjawab semua bendera negara di tingkat Mudah!`;
+            document.getElementById("go-medium-btn").textContent = "Lanjut ke Mode Sedang";
+            document.getElementById("go-score-btn").textContent = "Ke Perhitungan Poin";
+            document.getElementById("exit-message").innerHTML = "❓ <b>Yakin mau keluar?</b><br>Skormu tidak akan disimpan jika kamu keluar.";
+            document.getElementById("exit-yes-btn").textContent = "Ya";
+            document.getElementById("exit-no-btn").textContent = "Tidak";
+            document.getElementById("error-message").innerHTML = "❌ <b>Gagal memuat bendera!</b><br>Silakan periksa koneksi Anda dan coba lagi.";
+            document.getElementById("error-exit-btn").textContent = "Keluar";
+            document.getElementById("error-retry-btn").textContent = "Coba Lagi";
+            const soundBtn = document.getElementById("sound-btn");
+            const helpBtn = document.getElementById("help-btn");
+            if (soundBtn && helpBtn) {
+                soundBtn.title = isSoundOn ? "Matikan Suara" : "Hidupkan Suara";
+                helpBtn.title = "Tampilkan Tutorial";
+            }
+        }
+
+        if (questionLoaded && !isTransitioning) {
+            document.querySelectorAll(".choice-btn").forEach((btn, index) => {
+                let country = btn.dataset.countryCca3 ? easyCountries.find(c => c.cca3 === btn.dataset.countryCca3) : null;
+                if (country) {
+                    btn.innerHTML = lang === "en" ? country.name.common : countryNamesID[country.cca3];
+                }
+            });
+        }
+    }, 500);
+}
+
+function getCurrentTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, "0");
+    const minutes = now.getMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+}
+
+function checkAutoResetToken() {
+    const today = new Date().toISOString().split("T")[0];
+    const lastResetDate = localStorage.getItem("lastResetDate") || "1970-01-01";
+    const currentTime = getCurrentTime();
+
+    console.log("checkAutoResetToken: today =", today, "lastResetDate =", lastResetDate, "currentTime =", currentTime);
+
+    if (today !== lastResetDate && currentTime >= "18:00") {
+        localStorage.setItem("token", 7);
+        localStorage.setItem("lastResetDate", today);
+        console.log("Token direset ke 7 pada", today, currentTime);
+    }
+
+    setInterval(() => {
+        const newTime = getCurrentTime();
+        const newDate = new Date().toISOString().split("T")[0];
+        if (newDate !== localStorage.getItem("lastResetDate") && newTime >= "18:00") {
+            localStorage.setItem("token", 7);
+            localStorage.setItem("lastResetDate", newDate);
+            console.log("Token direset ke 7 melalui interval pada", newDate, newTime);
+        }
+    }, 60000);
+}
+
+function reduceToken() {
+    let token = parseInt(localStorage.getItem("token") || "7");
+    token = Math.max(0, token - 1);
+    localStorage.setItem("token", token);
+    console.log(`reduceToken dipanggil. Token sekarang: ${token}`);
+    hasConsumedToken = true;
+}
+
+function spawnMeteors() {
+    setInterval(() => {
+        const meteor = document.createElement("div");
+        meteor.classList.add("meteor");
+        if (Math.random() < 0.3) {
+            meteor.classList.add("meteor-yellow");
+        }
+        meteor.style.left = `${Math.random() * window.innerWidth}px`;
+        meteor.style.top = `-${80}px`;
+        meteor.style.animationDuration = `${Math.random() * 2 + 1.5}s`;
+        document.body.appendChild(meteor);
+
+        setTimeout(() => {
+            meteor.remove();
+        }, 4000);
+    }, 500);
+}
+
+function spawnParticles() {
+    const particleContainer = document.querySelector(".particle-container");
+    for (let i = 0; i < 20; i++) {
+        const particle = document.createElement("div");
+        particle.classList.add("particle");
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+        particleContainer.appendChild(particle);
+    }
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function loadQuestion() {
+    if (questionLoaded || isTransitioning || isWatchingAd) return;
+
+    questionLoaded = true;
+    isTransitioning = true;
+    isFlagLoaded = false;
+    selectedAnswer = null;
+    wrongAnswers.clear();
+
+    document.querySelectorAll(".choice-btn").forEach(btn => {
+        btn.classList.remove("selected");
+    });
+
+    const confirmBtn = document.getElementById("confirm-btn");
+    if (confirmBtn) {
+        confirmBtn.disabled = true;
+    }
+    updateAttemptsDisplay();
+
+    document.querySelectorAll(".choice-btn").forEach(btn => {
+        btn.classList.add("disabled");
+        btn.onclick = null;
+    });
+
+    let availableCountries = easyCountries.filter(country => !usedFlagsEasy.includes(country.cca3));
+    if (availableCountries.length === 0) {
+        let comboBonus = Math.min(comboCount * 5, 50);
+        let remainingAttemptsBonus = attemptsLeft * 50;
+        score += comboBonus + remainingAttemptsBonus;
+        localStorage.setItem("scoreEasy", score);
+        showWinPopup();
+        return;
+    }
+
+    let correctCountry = availableCountries[Math.floor(Math.random() * availableCountries.length)];
+    usedFlagsEasy.push(correctCountry.cca3);
+    console.log("usedFlagsEasy sementara:", usedFlagsEasy);
+
+    let choices = new Set([correctCountry]);
+    while (choices.size < 4) {
+        let choice = easyCountries[Math.floor(Math.random() * easyCountries.length)];
+        if (!choices.has(choice)) choices.add(choice);
+    }
+
+    let shuffledChoices = shuffleArray([...choices]);
+
+    const flagImg = document.getElementById("flag-img");
+    const flagLoading = document.getElementById("flag-loading");
+    if (!flagImg || !flagLoading) {
+        console.error("Elemen 'flag-img' atau 'flag-loading' tidak ditemukan!");
+        return;
+    }
+
+    flagImg.classList.remove("show");
+    flagLoading.classList.add("show");
+
+    const loadImage = (src) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = () => {
+                console.log(`Gambar dimuat: ${src}`);
+                resolve(img);
+            };
+            img.onerror = () => {
+                console.error(`Gagal memuat gambar: ${src}`);
+                reject(new Error(`Gagal memuat bendera: ${src}`));
+            };
+        });
+    };
+
+    const minSpinnerDuration = 3000;
+    const spinnerPromise = new Promise(resolve => setTimeout(resolve, minSpinnerDuration));
+    const imagePromise = loadImage(correctCountry.flags.png);
+
+    Promise.all([spinnerPromise, imagePromise])
+        .then(([, img]) => {
+            flagLoading.classList.remove("show");
+            flagImg.src = img.src;
+            setTimeout(() => {
+                flagImg.classList.add("show");
+                isFlagLoaded = true;
+                isTransitioning = false;
+
+                document.querySelectorAll(".choice-btn").forEach((btn, index) => {
+                    let country = shuffledChoices[index];
+                    btn.innerText = savedLang === "en" ? country.name.common : countryNamesID[country.cca3];
+                    btn.dataset.countryCca3 = country.cca3;
+                    btn.classList.remove("disabled");
+                    if (wrongAnswers.has(country.cca3)) {
+                        btn.classList.add("disabled");
+                    } else {
+                        btn.onclick = () => selectAnswer(country, correctCountry, btn);
+                    }
+                    console.log("Pilihan jawaban", index, ":", btn.innerText);
+                });
+            }, 100);
+        })
+        .catch(error => {
+            console.error(error);
+            flagLoading.classList.remove("show");
+            questionLoaded = false;
+            isTransitioning = false;
+            isFlagLoaded = false;
+            usedFlagsEasy.pop();
+            showErrorPopup();
+        });
+
+    document.querySelector(".flag-container").classList.add("show");
+    document.querySelector(".choices").classList.add("show");
+    document.getElementById("confirm-btn").classList.add("show");
+}
+
+function selectAnswer(selected, correct, button) {
+    if (!isFlagLoaded) {
+        showPopup(savedLang === "en" ? 
+            "⏳ <b>Please wait!</b><br>The flag is still loading." : 
+            "⏳ <b>Tunggu sebentar!</b><br>Bendera masih dimuat.", "#FFC107");
+        return;
+    }
+
+    const confirmBtn = document.getElementById("confirm-btn");
+    if (!confirmBtn) {
+        console.error("Elemen 'confirm-btn' tidak ditemukan!");
+        return;
+    }
+
+    if (selectedAnswer && selectedAnswer.selected.cca3 === selected.cca3) {
+        selectedAnswer = null;
+        button.classList.remove("selected");
+        confirmBtn.disabled = true;
+    } else {
+        selectedAnswer = { selected, correct };
+        document.querySelectorAll(".choice-btn").forEach(btn => {
+            btn.classList.remove("selected");
+        });
+        button.classList.add("selected");
+        confirmBtn.disabled = false;
+    }
+}
+
+function confirmAnswer() {
+    if (!selectedAnswer) return;
+
+    let { selected, correct } = selectedAnswer;
+
+    const flagImg = document.getElementById("flag-img");
+    if (!flagImg) {
+        console.error("Elemen 'flag-img' tidak ditemukan di confirmAnswer!");
+        return;
+    }
+    flagImg.classList.remove("shake");
+
+    if (selected.cca3 === correct.cca3) {
+        correctAnswers++;
+        comboCount++;
+        score += 10;
+
+        showPopup(savedLang === "en" ? 
+            `✅ <b>Correct answer!</b>` : 
+            `✅ <b>Jawaban benar!</b>`, "#28A745");
+
+        questionLoaded = false;
+        wrongAnswers.clear();
+    } else {
+        comboCount = 0;
+        attemptsLeft--;
+        updateAttemptsDisplay();
+        flagImg.classList.add("shake");
+
+        wrongAnswers.add(selected.cca3);
+
+        document.querySelectorAll(".choice-btn").forEach(btn => {
+            if (btn.dataset.countryCca3 === correct.cca3) {
+                btn.classList.add("disabled");
+                btn.onclick = null;
+            } else {
+                btn.classList.remove("disabled");
+                if (wrongAnswers.has(btn.dataset.countryCca3)) {
+                    btn.onclick = null;
+                } else {
+                    btn.onclick = () => selectAnswer(
+                        easyCountries.find(c => c.cca3 === btn.dataset.countryCca3),
+                        correct,
+                        btn
+                    );
+                }
+            }
+        });
+
+        if ("vibrate" in navigator) {
+            navigator.vibrate(200);
+        } else {
+            console.log("Perangkat tidak mendukung getaran.");
+        }
+
+        if (attemptsLeft > 0) {
+            showPopup(savedLang === "en" ? 
+                `❌ <b>Wrong answer!</b><br>Attempts left: <b>${attemptsLeft}</b><br>Loading next question...` : 
+                `❌ <b>Jawaban salah!</b><br>Kesempatan tersisa: <b>${attemptsLeft}</b><br>Memuat soal berikutnya...`, "#DC3545");
+            selectedAnswer = null;
+            document.querySelectorAll(".choice-btn").forEach(btn => {
+                btn.classList.remove("selected");
+            });
+            document.getElementById("confirm-btn").disabled = true;
+            questionLoaded = false;
+        } else {
+            showTokenPopup();
+            return;
+        }
+    }
+}
+
+function showTutorial() {
+    let tutorialPopup = document.getElementById("tutorial-popup");
+    if (!tutorialPopup) {
+        console.error("Elemen 'tutorial-popup' tidak ditemukan!");
+        showPopup(savedLang === "en" ? 
+            "❌ <b>Error!</b><br>Tutorial popup not found." : 
+            "❌ <b>Error!</b><br>Popup tutorial tidak ditemukan.", "#DC3545");
+        return;
+    }
+    console.log("Menampilkan tutorial popup");
+    tutorialPopup.style.visibility = "visible";
+    tutorialPopup.classList.remove("hide");
+    setTimeout(() => {
+        tutorialPopup.classList.add("show");
+    }, 10);
+}
+
+function closeTutorial() {
+    let tutorialPopup = document.getElementById("tutorial-popup");
+    if (!tutorialPopup) {
+        console.error("Elemen 'tutorial-popup' tidak ditemukan di closeTutorial!");
+        return;
+    }
+    console.log("Menutup tutorial popup");
+    tutorialPopup.classList.remove("show");
+    tutorialPopup.classList.add("hide");
+
+    setTimeout(() => {
+        tutorialPopup.style.visibility = "hidden";
+        tutorialPopup.classList.remove("hide");
+
+        let token = parseInt(localStorage.getItem("token") || "7");
+        console.log(`closeTutorial: Token sebelum mulai: ${token}`);
+        if (token <= 0) {
+            showPopup(savedLang === "en" ? 
+                "❌ <b>No tokens left!</b><br>Returning to main menu..." : 
+                "❌ <b>Token habis!</b><br>Kembali ke menu utama...", "#DC3545");
+            setTimeout(() => window.location.href = "index.html", 4000);
+            return;
+        }
+
+        if (!gameStarted && !hasConsumedToken) {
+            reduceToken();
+            gameStarted = true;
+            console.log("Permainan dimulai, gameStarted =", gameStarted, "hasConsumedToken =", hasConsumedToken);
+        }
+
+        const navbar = document.querySelector(".navbar");
+        if (navbar) {
+            navbar.classList.remove("hidden");
+            navbar.classList.add("show");
+        }
+
+        const sloganElement = document.querySelector(".navbar-brand");
+        const rightElement = document.querySelector(".navbar-right");
+        const attemptsElement = document.getElementById("navbar-attempts");
+        const container = document.querySelector(".container");
+        const gameTitle = document.getElementById("game-title");
+
+        if (sloganElement) sloganElement.classList.add("show");
+        if (rightElement) rightElement.classList.add("show");
+        if (attemptsElement) attemptsElement.classList.add("show");
+        if (container) container.classList.add("show");
+        if (gameTitle) gameTitle.classList.add("show");
+
+        if (easyCountries.length > 0) {
+            console.log("Memuat soal pertama");
+            loadQuestion();
+        } else {
+            console.error("Tidak ada negara yang tersedia untuk dimuat!");
+            showPopup(savedLang === "en" ? 
+                "❌ <b>No countries available!</b>" : 
+                "❌ <b>Tidak ada negara tersedia!</b>", "#DC3545");
+        }
+    }, 300);
+}
+
+function updateAttemptsDisplay() {
+    const attemptsElement = document.getElementById("navbar-attempts");
+    if (!attemptsElement) {
+        console.error("Elemen 'navbar-attempts' tidak ditemukan di updateAttemptsDisplay!");
+        return;
+    }
+    const attemptsText = savedLang === "en" ? `Attempts: ${attemptsLeft}` : `Kesempatan: ${attemptsLeft}`;
+    attemptsElement.textContent = attemptsText;
+}
+
+function showPopup(message, bgColor) {
+    let popup = document.getElementById("popup");
+    let popupMessage = document.getElementById("popup-message");
+
+    if (!popup || !popupMessage) {
+        console.error("Elemen 'popup' atau 'popup-message' tidak ditemukan di showPopup!");
+        return;
+    }
+
+    console.log("Menampilkan popup dengan pesan:", message);
+    popupMessage.innerHTML = message;
+    popup.style.backgroundColor = bgColor;
+    
+    popup.classList.remove("hide");
+    popup.style.visibility = "visible";
+    setTimeout(() => popup.classList.add("show"), 10);
+
+    autoClosePopupTimeout = setTimeout(() => {
+        closePopup();
+    }, 4000);
+}
+
+function closePopup() {
+    let popup = document.getElementById("popup");
+    if (!popup) {
+        console.error("Elemen 'popup' tidak ditemukan di closePopup!");
+        return;
+    }
+    console.log("Menutup popup");
+    popup.classList.remove("show");
+    popup.classList.add("hide");
+
+    clearTimeout(autoClosePopupTimeout);
+
+    setTimeout(() => {
+        popup.style.visibility = "hidden";
+        popup.classList.remove("hide");
+
+        if (attemptsLeft > 0 && !isTransitioning && !isWatchingAd && !questionLoaded) {
+            const flagImg = document.getElementById("flag-img");
+            if (flagImg) {
+                flagImg.classList.remove("shake");
+                console.log("Memuat soal baru setelah popup ditutup");
+                loadQuestion();
+            }
+        }
+    }, 300);
+}
+
+function showTokenPopup() {
+    if (tokenPopupShown) return;
+    tokenPopupShown = true;
+
+    let tokenPopup = document.getElementById("token-popup");
+    let popupMessage = document.getElementById("token-message");
+    let watchAdBtn = document.getElementById("watch-ad-btn");
+    if (!tokenPopup || !popupMessage || !watchAdBtn) {
+        console.error("Elemen 'token-popup', 'token-message', atau 'watch-ad-btn' tidak ditemukan di showTokenPopup!");
+        return;
+    }
+
+    console.log("Menampilkan token popup");
+    popupMessage.innerHTML = savedLang === "en" ? 
+        (adWatchCount < 4 ? 
+            "⏳ <b>Attempts exhausted!</b><br>Watch an ad to continue playing?" : 
+            "⏳ <b>Attempts exhausted!</b><br>Ad watch limit reached. Proceed to score?") : 
+        (adWatchCount < 4 ? 
+            "⏳ <b>Kesempatan habis!</b><br>Tonton iklan untuk melanjutkan bermain?" : 
+            "⏳ <b>Kesempatan habis!</b><br>Kesempatan tonton iklan habis. Lanjut ke skor?");
+
+    watchAdBtn.textContent = savedLang === "en" ? 
+        (adWatchCount < 4 ? "Watch Ad" : "Ad Attempts Exhausted") : 
+        (adWatchCount < 4 ? "Tonton Iklan" : "Kesempatan Tonton Iklan Habis");
+    watchAdBtn.disabled = adWatchCount >= 4;
+
+    tokenPopup.classList.remove("hide");
+    tokenPopup.style.visibility = "visible";
+    setTimeout(() => tokenPopup.classList.add("show"), 10);
+
+    if (adWatchCount >= 4) {
+        setTimeout(() => {
+            if (tokenPopup.classList.contains("show")) {
+                goToScore();
+            }
+        }, 5000);
+    }
+}
+
+function closeTokenPopup() {
+    let tokenPopup = document.getElementById("token-popup");
+    if (!tokenPopup) {
+        console.error("Elemen 'token-popup' tidak ditemukan di closeTokenPopup!");
+        return;
+    }
+    console.log("Menutup token popup");
+    tokenPopup.classList.remove("show");
+    tokenPopup.classList.add("hide");
+
+    setTimeout(() => {
+        tokenPopup.style.visibility = "hidden";
+        tokenPopup.classList.remove("hide");
+        tokenPopupShown = false;
+    }, 300);
+}
+
+function watchAd() {
+    if (isWatchingAd || adWatchCount >= 4) return;
+    isWatchingAd = true;
+    const watchAdBtn = document.getElementById("watch-ad-btn");
+    if (!watchAdBtn) {
+        console.error("Elemen 'watch-ad-btn' tidak ditemukan di watchAd!");
+        return;
+    }
+    watchAdBtn.disabled = true;
+    console.log("Menonton iklan, adWatchCount sebelumnya:", adWatchCount);
+
+    setTimeout(() => {
+        adWatchCount++;
+        localStorage.setItem("adWatchCount", adWatchCount);
+        attemptsLeft = 3;
+        updateAttemptsDisplay();
+        closeTokenPopup();
+        isWatchingAd = false;
+        questionLoaded = false;
+        console.log("Iklan selesai ditonton, adWatchCount sekarang:", adWatchCount);
+        loadQuestion();
+    }, 3000);
+}
+
+function goToScore() {
+    console.log("Menyimpan skor dan menuju ke halaman skor");
+    localStorage.setItem("scoreEasy", score);
+    window.location.href = "score.html";
+}
+
+function goToMedium() {
+    console.log("Menyimpan skor dan menuju ke mode Sedang");
+    localStorage.setItem("scoreEasy", score);
+    window.location.href = "game-medium.html";
+}
+
+function showWinPopup() {
+    if (winPopupShown) return;
+    winPopupShown = true;
+
+    let winPopup = document.getElementById("win-popup");
+    let popupMessage = document.getElementById("win-message");
+    if (!winPopup || !popupMessage) {
+        console.error("Elemen 'win-popup' atau 'win-message' tidak ditemukan di showWinPopup!");
+        return;
+    }
+
+    console.log("Menampilkan win popup");
+    popupMessage.innerHTML = savedLang === "en" ? 
+        `🎉 <b>Congratulations!</b><br>You have answered all flags in Easy level!` : 
+        `🎉 <b>Selamat!</b><br>Anda berhasil menjawab semua bendera negara di tingkat Mudah!`;
+
+    winPopup.classList.remove("hide");
+    winPopup.style.visibility = "visible";
+    setTimeout(() => winPopup.classList.add("show"), 10);
+}
+
+function showErrorPopup() {
+    if (errorPopupShown) return;
+    errorPopupShown = true;
+
+    let errorPopup = document.getElementById("error-popup");
+    let popupMessage = document.getElementById("error-message");
+    if (!errorPopup || !popupMessage) {
+        console.error("Elemen 'error-popup' atau 'error-message' tidak ditemukan di showErrorPopup!");
+        return;
+    }
+
+    console.log("Menampilkan error popup");
+    popupMessage.innerHTML = savedLang === "en" ? 
+        "❌ <b>Failed to load flag!</b><br>Please check your connection and try again." : 
+        "❌ <b>Gagal memuat bendera!</b><br>Silakan periksa koneksi Anda dan coba lagi.";
+
+    errorPopup.classList.remove("hide");
+    errorPopup.style.visibility = "visible";
+    setTimeout(() => errorPopup.classList.add("show"), 10);
+}
+
+function retryLoadQuestion() {
+    console.log("Mencoba memuat ulang soal");
+    errorPopupShown = false;
+    let errorPopup = document.getElementById("error-popup");
+    if (!errorPopup) {
+        console.error("Elemen 'error-popup' tidak ditemukan di retryLoadQuestion!");
+        return;
+    }
+    errorPopup.classList.remove("show");
+    errorPopup.classList.add("hide");
+
+    setTimeout(() => {
+        errorPopup.style.visibility = "hidden";
+        errorPopup.classList.remove("hide");
+        loadQuestion();
+    }, 300);
+}
+
+function exitOnError() {
+    console.log("Keluar karena error");
+    window.location.href = "index.html";
+}
+
+function showExitPopup() {
+    let exitPopup = document.getElementById("exit-popup");
+    let popupMessage = document.getElementById("exit-message");
+    if (!exitPopup || !popupMessage) {
+        console.error("Elemen 'exit-popup' atau 'exit-message' tidak ditemukan di showExitPopup!");
+        return;
+    }
+
+    console.log("Menampilkan exit popup");
+    popupMessage.innerHTML = savedLang === "en" ? 
+        "❓ <b>Are you sure you want to exit?</b><br>Your score will not be saved if you exit." : 
+        "❓ <b>Yakin mau keluar?</b><br>Skormu tidak akan disimpan jika kamu keluar.";
+
+    exitPopup.classList.remove("hide");
+    exitPopup.style.visibility = "visible";
+    setTimeout(() => exitPopup.classList.add("show"), 10);
+}
+
+function confirmExit(shouldExit) {
+    let exitPopup = document.getElementById("exit-popup");
+    if (!exitPopup) {
+        console.error("Elemen 'exit-popup' tidak ditemukan di confirmExit!");
+        return;
+    }
+
+    console.log("Konfirmasi keluar, shouldExit:", shouldExit);
+    exitPopup.classList.remove("show");
+    exitPopup.classList.add("hide");
+
+    setTimeout(() => {
+        exitPopup.style.visibility = "hidden";
+        exitPopup.classList.remove("hide");
+
+        if (shouldExit) {
+            window.location.href = "index.html";
+        }
+    }, 300);
+}
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
